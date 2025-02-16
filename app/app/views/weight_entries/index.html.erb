@@ -1,0 +1,85 @@
+<%# app/views/weight_entries/index.html.erb %>
+<div class="container mx-auto p-6">
+  <h1 class="text-4xl font-bold text-center text-blue-600 mb-6">Trackeuse de Poids</h1>
+
+   <div class="mb-8">
+    <canvas id="weightChart" width="400" height="200"></canvas>
+  </div>
+
+  <div class="flex justify-end mb-4">
+    <%= link_to "Ajouter une nouvelle entrée", new_weight_entry_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white shadow-md rounded-lg">
+      <thead>
+        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+          <th class="py-3 px-6 text-left">Date</th>
+          <th class="py-3 px-6 text-left">Poids (kg)</th>
+          <th class="py-3 px-6 text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-600 text-sm font-light">
+        <% @weight_entries.each do |entry| %>
+          <tr class="border-b border-gray-200 hover:bg-gray-100">
+            <td class="py-3 px-6 text-left"><%= entry.date %></td>
+            <td class="py-3 px-6 text-left"><%= entry.weight %></td>
+            <td class="py-3 px-6 text-center flex justify-center">
+              <%= link_to "Voir", weight_entry_path(entry), class: "text-blue-500 hover:underline" %> |
+              <%= link_to "Modifier", edit_weight_entry_path(entry), class: "text-green-500 hover:underline" %> |
+              <%= button_to weight_entry_path(entry), method: :delete, form: { data: { turbo_confirm: "Êtes-vous sûr de vouloir supprimer cette entrée ?" } }, class: "text-red-500 hover:underline", title: "Supprimer" do %>
+                Supprimer
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+    <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Historique de Poids</h2>
+    <%= line_chart @weight_records, xtitle: "Date", ytitle: "Poids (kg)" %>
+  </div>
+ 
+  </div>
+
+</div>
+
+<!-- Script pour initialiser le graphique -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('weightChart').getContext('2d');
+    const weightChart = new Chart(ctx, {
+      type: 'line', // Type de graphique (ligne, barre, etc.)
+      data: {
+        labels: <%= raw @weight_entries.pluck(:date).to_json %>, // Dates des entrées
+        datasets: [{
+          label: 'Poids (kg)',
+          data: <%= raw @weight_entries.pluck(:weight).to_json %>, // Données de poids
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  });
+</script>
+
+
+
+
+
+ 
+
+
+
+
+
+
