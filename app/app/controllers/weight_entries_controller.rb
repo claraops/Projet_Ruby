@@ -7,6 +7,8 @@ before_action :set_weight_entry, only: [:show, :edit, :update, :destroy]
     @weight_entries = WeightEntry.order(date: :desc)
   end
 
+ 
+
 
  def new
    @weight_entry = WeightEntry.new(date: Date.current)
@@ -51,9 +53,11 @@ before_action :set_weight_entry, only: [:show, :edit, :update, :destroy]
   end
 
     def weight_entry_params
-      params.require(:weight_entry).permit(:weight, :date)
+      params.require(:weight_entry).permit(:weight, :date, :nbre_pas)
       
     end
+
+   
 
    
 end

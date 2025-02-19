@@ -23,6 +23,12 @@
     <%= form.number_field :weight %>
   </div>
 
+  <div class="field">
+  <%= form.label :nbre_pas, "Nombre de pas" %>
+  <%= form.number_field :nbre_pas, class: "form-control" %>
+</div>
+
+
   <div class="actions">
     <%= form.submit 'Enregistrer modification', class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
   </div>

@@ -102,4 +102,9 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+   # Forcer l'utilisation de HTTPS pour les cookies de session
+   config.session_store :cookie_store, key: '_your_app_session_production', secure: true, same_site: :strict
+
+
 end

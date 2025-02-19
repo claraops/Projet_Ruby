@@ -22,6 +22,12 @@
     <%= form.date_field :date %>
   </div>
 
+  
+  <div class="field">
+    <%= form.label :nbre_pas, "Nombre de pas" %>
+    <%= form.number_field :nbre_pas, class: "form-control" %>
+  </div>
+
   <div class="flex justify-end">
     <%= form.submit "Enregistrer" %>
   </div>
